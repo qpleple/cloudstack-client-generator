@@ -55,24 +55,28 @@ if ($argc > 2 && $argv[1] == "method" ) {
 }
 
 
-// Here : no argument given (or not valid), generating the class
-// Download the API reference table of content 
-$html = $lib->fetchHtml($config['api_ref_toc_url']);
-$rootUrl = getRootUrl($config['api_ref_toc_url']);
-
-$methods = array();
-// walk through all links
-foreach (getAllLinks($html) as $link) {
-    $url =  $rootUrl . $link;
-    $methods[] = fetchMethodData($url);
+if ($argc > 2 && $argv[1] == "class" ) {
+    // Download the API reference table of content 
+    $html = $lib->fetchHtml($config['api_ref_toc_url']);
+    $rootUrl = getRootUrl($config['api_ref_toc_url']);
+    
+    $methods = array();
+    // walk through all links
+    foreach (getAllLinks($html) as $link) {
+        $url =  $rootUrl . $link;
+        $methods[] = fetchMethodData($url);
+    }
+    
+    $lib->render("class.php.twig", array(
+        "methods" => $methods,
+        "config" => $config,
+    ));
 }
+    
+// Here : no valid arguments given, printing help and exiting
+$lib->render("usage.cli.twig", array());
+exit;
 
-$lib->render("class.php.twig", array(
-    "methods" => $methods,
-    "config" => $config,
-));
-    
-    
 /******************
   Functions
  ******************/
