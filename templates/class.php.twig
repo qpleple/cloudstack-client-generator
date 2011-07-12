@@ -1,0 +1,13 @@
+<?php
+/**
+* 
+*/
+abstract class BaseCloudStackClient {
+    // Force Extending class to define this method
+    abstract protected function request($method, $args);
+    
+{% for method in methods %}
+{% include "method.php.twig" with {'method' : method, 'config' : config} %}
+
+{% endfor %}
+}
