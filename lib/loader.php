@@ -41,7 +41,7 @@ class Lib {
         return null;
     }
     
-    public function loadHtml($url) {
+    public function fetchHtml($url) {
         return file_get_html($url);
     }
     
