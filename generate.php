@@ -16,11 +16,11 @@ $config = $lib->loadYaml("config.yml");
  * The command "links" outputs the list of all the links
  * 
  */
-if ($argc > 1 && $argv[1] == "links") {
+if ($argc > 1 && $argv[1] == "dump-links") {
     // Download the API reference table of content 
     $html = $lib->fetchHtml($config['api_ref_toc_url']);
-    
-    foreach (getAllLinks($html) as $link) {
+    $links = getAllLinks($html);
+    foreach ($links as $link) {
         echo $link . "\n";
     }
     
@@ -30,10 +30,11 @@ if ($argc > 1 && $argv[1] == "links") {
 /**
  * The command "method-data"
  */
-if ($argc > 2 && $argv[1] == "methoddata" ) {
+if ($argc > 2 && $argv[1] == "dump-method-data" ) {
     $method = $argv[2];
-    $url = getRootUrl($config['api_ref_toc_url']) . $method . ".html";
-    var_dump(fetchMethodData($url));
+    $url = getRootUrl($config['api_ref_toc_url']) . "user/${method}.html";
+    print_r(fetchMethodData($url));
+
     exit;
 }
 
@@ -42,13 +43,14 @@ if ($argc > 2 && $argv[1] == "methoddata" ) {
  */
 if ($argc > 2 && $argv[1] == "method" ) {
     $method = $argv[2];
-    $url = getRootUrl($config['api_ref_toc_url']) . $method . ".html";
+    $url = getRootUrl($config['api_ref_toc_url']) . "user/${method}.html";
     $methodData = fetchMethodData($url);
     
     $lib->render("method.php.twig", array(
         "method" => $methodData,
         "config" => $config,
     ));
+
     exit;
 }
 
