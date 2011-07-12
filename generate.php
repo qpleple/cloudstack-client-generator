@@ -6,23 +6,109 @@ if (!defined('STDIN')) {
   exit;
 }
 
+// Load liraries
 $lib = require_once dirname(__FILE__) . "/lib/loader.php";
+// Load configuration files
 $config = $lib->loadYaml("config.yml");
-$html = $lib->loadHtml($config['complete_url']);
+// Download the API reference table of content 
+$html = $lib->fetchHtml($config['api_ref_toc_url']);
 
-
-function getAllLinks($html) {
-    foreach($html->find('a') as $a) {
-        echo $a->href . '\n';
+if ($argc > 1 && $argv[1] == "dump:links") {
+    foreach (getAllLinks($html) as $link) {
+        echo $link . "\n";
     }
+} elseif ($argc > 2 && $argv[1] == "dump:methoddata" ) {
+    $method = $argv[2];
+    $url = getRootUrl($config['api_ref_toc_url']) . $method . ".html";
+    var_dump(fetchMethodData($url));
+}
+
+
+
+exit;
+
+/******************
+  Functions
+ ******************/
+
+/**
+ * Get all the hyperlinks from the HTML document given
+ * and return them in an array
+ */
+function getAllLinks($html) {
+    $links = array();
+    
+    foreach($html->find('a') as $a) {
+        $url = $a->href;
+        
+        // Exclude page that are not method documentation
+        // You may need to edit the rules if the documentation has changed
+        if ($url == "http://cloud.com" || substr($url, 0, 8) == "user/2.2") {
+            continue;
+        }
+        
+        $links[] = $url;
+    }
+    
+    return $links;
+}
+
+/**
+ * Match the root of the table of content
+ * for http://download.cloud.com/releases/2.2.0/api_2.2.4/TOC_User.html
+ * the root is http://download.cloud.com/releases/2.2.0/api_2.2.4/
+ */
+function getRootUrl($url) {
+    preg_match("/^(.*\/)[^\/]+$/", $url, $matches);
+    return $matches[1] . "user/";
+}
+
+/**
+ * Fetch the data of the reference page of one method
+ * and returns it in an array
+ */
+function fetchMethodData($url) {
+    global $lib;
+    $html = $lib->fetchHtml($url);
+    $data = array(
+        // The name of the method is in the first and only one h1
+        'name' => trim($html->find('h1', 0)->plaintext),
+        // The description of the method is the first span of the page
+        'description' => trim($html->find('span', 0)->plaintext),
+    );
+    
+    // The arguments of the method are all in the first table
+    $params_table = $html->find('table', 0);
+
+    // then, capturing the 3 cells of each lines :
+    // parameter name, description of the paramter and wether if it is required or not
+    foreach($params_table->find('tr') as $tr) {
+        if (trim($tr->find('td', 0)->plaintext) != "Parameter Name") {
+            $param_name = trim($tr->find('td', 0)->plaintext);
+            $data['params'][$param_name] = array(
+                "description" => trim($tr->find('td', 1)->plaintext),
+                "required" => trim($tr->find('td', 2)->plaintext),
+            );
+        }
+    }
+    
+    // All the methods strating with list have a additionnal parameter
+    // for pagination, not required
+    if (substr($data['name'], 0, 4) == "list") {
+        $data['params']['page'] = array(
+            "description" => "Pagination",
+            "required" => "false",
+        );
+    }
+    
+    return $data;
 }
 
 exit;
+
+
 foreach($html->find('a') as $a) {
     $url = $a->href;
-    if ($url == "index.html" || substr($url, 0, 8) == "user/2.2") {
-        continue;
-    }
     try {
         // Class generation
         $method = extract_method_data($base_url . $url, false);
@@ -135,10 +221,6 @@ function dump_method($method) {
     myecholn("    ));");
     myecholn();
     myecholn("}");
-}
-
-function myecholn($var = "") {
-    echo $var . "\n";
 }
 
 function echo_params_names($method) {
