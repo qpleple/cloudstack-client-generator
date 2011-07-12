@@ -1,9 +1,12 @@
 # URL of the API reference table of contents
 api_ref_toc_url: http://download.cloud.com/releases/2.2.0/api_2.2.4/TOC_User.html
 
-# Camel case
-use_camel_case: true
-camel_case_values:
+php:
+    name: CloudStackClient.php
+    use_camel_case: true
+
+# Camel case values
+camel_case:
     values:
     account: account
     accounts: accounts
