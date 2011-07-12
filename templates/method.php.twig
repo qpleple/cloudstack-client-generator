@@ -1,0 +1,18 @@
+/**
+* {{ description }}
+*
+{% for param in params %}
+* @param string ${{ param.name }} {{ param.description }}
+{% endfor %}
+*/
+
+public function {{ name }}({% for param in params %}
+${{ param.name }}{% if param.required != "true" %} = ""{% endif %}{% if not loop.last %}, {% endif %}
+{% endfor %}
+) {
+    $this->request("{{ name }}", array(
+        {% for param in params %}
+        '{{ param.name }}' => ${{ param.name }},
+        {% endfor %}
+    ));
+}
