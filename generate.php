@@ -1,8 +1,23 @@
 #!/usr/bin/env php
 <?php
-require_once "prepend.inc.php";
-// $twig->loadTemplate('template.php.twig')->display(array('foo' => 'bar'));
+// Test if executed from CLI
+if (!defined('STDIN')) {
+  echo("Error : Should only be executed from CLI.");  
+  exit;
+}
 
+$lib = require_once dirname(__FILE__) . "/lib/loader.php";
+$config = $lib->loadYaml("config.yml");
+$html = $lib->loadHtml($config['complete_url']);
+
+
+function getAllLinks($html) {
+    foreach($html->find('a') as $a) {
+        echo $a->href . '\n';
+    }
+}
+
+exit;
 foreach($html->find('a') as $a) {
     $url = $a->href;
     if ($url == "index.html" || substr($url, 0, 8) == "user/2.2") {
@@ -132,118 +147,5 @@ function echo_params_names($method) {
             myecholn($param);
         }
     }
-}
-
-function camelCase($param){
-    $camelCase = array(
-        "account" => "account",
-        "accounts" => "accounts",
-        "accounttype" => "accountType",
-        "algorithm" => "algorithm",
-        "allocatedonly" => "allocatedOnly",
-        "applied" => "applied",
-        "availability" => "availability",
-        "available" => "available",
-        "bits" => "bits",
-        "bootable" => "bootable",
-        "cidrlist" => "cidrList",
-        "description" => "description",
-        "destzoneid" => "destzoneId",
-        "deviceid" => "deviceId",
-        "diskofferingid" => "diskOfferingId",
-        "displayname" => "displayName",
-        "displaytext" => "displayText",
-        "domain" => "domain",
-        "domainid" => "domainId",
-        "duration" => "duration",
-        "enddate" => "endDate",
-        "endip" => "endIp",
-        "endport" => "endPort",
-        "entrytime" => "entryTime",
-        "forced" => "forced",
-        "format" => "format",
-        "forvirtualnetwork" => "forVirtualNetwork",
-        "gateway" => "gateway",
-        "group" => "group",
-        "groupid" => "groupId",
-        "guestiptype" => "guestIpType",
-        "haenable" => "haEnable",
-        "hostid" => "hostId",
-        "hypervisor" => "hypervisor",
-        "icmpcode" => "icmpCode",
-        "icmptype" => "icmpType",
-        "id" => "id",
-        "ids" => "ids",
-        "intervaltype" => "intervalType",
-        "ipaddress" => "ipAddress",
-        "ipaddressid" => "ipAddressId",
-        "iprange" => "ipRange",
-        "iscleanuprequired" => "isCleanuPrequired",
-        "isdefault" => "isDefault",
-        "isextractable" => "isExtractable",
-        "isfeatured" => "isFeatured",
-        "isofilter" => "isoFilter",
-        "ispublic" => "isPublic",
-        "isready" => "isReady",
-        "isrecursive" => "isRecursive",
-        "isshared" => "isShared",
-        "issystem" => "isSystem",
-        "jobid" => "jobId",
-        "keypair" => "keyPair",
-        "level" => "level",
-        "maxsnaps" => "maxSnaps",
-        "mode" => "mode",
-        "name" => "name",
-        "netmask" => "netmask",
-        "networkdomain" => "networkDomain",
-        "networkid" => "networkId",
-        "networkids" => "networkIds",
-        "networkofferingid" => "networkOfferingId",
-        "op" => "op",
-        "oscategoryid" => "osCategoryId",
-        "ostypeid" => "osTypeId",
-        "page" => "page",
-        "password" => "password",
-        "passwordenabled" => "passwordEnabled",
-        "podid" => "podId",
-        "policyid" => "policyId",
-        "privateport" => "privatePort",
-        "protocol" => "protocol",
-        "publicipid" => "publicIpId",
-        "publicport" => "publicPort",
-        "requireshvm" => "requireShvm",
-        "resourcetype" => "resourceType",
-        "schedule" => "schedule",
-        "securitygroupid" => "securityGroupId",
-        "securitygroupids" => "securityGroupIds",
-        "securitygroupname" => "securityGroupName",
-        "serviceofferingid" => "serviceOfferingId",
-        "size" => "size",
-        "snapshotid" => "snapshotId",
-        "snapshottype" => "snapshotType",
-        "sourcezoneid" => "sourceZoneId",
-        "specifyvlan" => "specifyVlan",
-        "startdate" => "startDate",
-        "startip" => "startIp",
-        "startport" => "startPort",
-        "state" => "state",
-        "templatefilter" => "templateFilter",
-        "templateid" => "templateId",
-        "timezone" => "timezone",
-        "traffictype" => "trafficType",
-        "type" => "type",
-        "url" => "url",
-        "userdata" => "userData",
-        "userid" => "userId",
-        "username" => "userName",
-        "usersecuritygrouplist" => "userSecurityGroupList",
-        "virtualmachineid" => "virtualMachineId",
-        "virtualmachineids" => "virtualMachineIds",
-        "vlan" => "vlan",
-        "vlanid" => "vlanId",
-        "volumeid" => "volumeId",
-        "zoneid" => "zoneId"
-    );
-    return $camelCase[$param];
 }
 ?>
