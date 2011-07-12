@@ -91,12 +91,7 @@ Debuging
 As the DOM of the online documentation may change, here is some tools to inquire the change. Three steps are crucials :
 
 * The URL of the online documentation table of content of the **latest** version of the API. To be modified in the config file.
-* The link black list : links to ignore in all the links from the table of content. To be modified in the function `getAllLinks()` of `generate.php` :
-
-    if ($url == "http://cloud.com" || substr($url, 0, 8) == "user/2.2") {
-        continue;
-    }
-
+* The link black list : links to ignore in all the links from the table of content. To be modified in the function `getAllLinks()` of `generate.php`.
 * The page scraper if the DOM change, to be modified in the function `fetchMethodData()` in `generate.php`.
 
 The code is well documented, it should not be too difficult to understand and tweak it.
