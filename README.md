@@ -35,6 +35,59 @@ Here is an example of a method generated that has one arugment required (`$id`) 
     
 Usage
 -----
+Just run the script, it will generate all the methods.
+
+    php generate.php
+
+Output :
+
+    abstract class BaseCloudStackClient {
+        abstract protected function request($method, $args);
+    
+        /**
+        * Stops a virtual machine.
+        *
+        * @param string $id The ID of the virtual machine
+        * @param string $forced Force stop the VM.  The caller knows the VM is stopped.
+        */
+        
+        public function stopVirtualMachine($id, $forced = "") {
+            $this->request("stopVirtualMachine", array(
+                'id' => $id,
+                'forced' => $forced,
+            ));
+        }
+    
+        ...
+    }
+
+Configuration
+-------------
+
+The configuration is set in `config.yml` with the Yaml format :
+
+    # URL of the API reference table of contents
+    api_ref_toc_url: http://download.cloud.com/releases/2.2.0/api_2.2.4/TOC_User.html
+    
+    # Configuration for the PHP generated code
+    php:
+        class_name: BaseCloudStackClient
+        use_camel_case: true
+    
+    # Camel case values
+    camel_case:
+        account: account
+        accounts: accounts
+        accounttype: accountType
+        ...
+        
+Camel Case
+----------
+You can either choose to have generated code with the same variable names than in the documentation, `securitygroupnames` for instance, or to have them in camel case, like `securityGroupNames` by setting `use_camel_case` to `true` in the configuration file.
+
+
+Debuging
+--------
 
 ### Dump links ###
 This command is great to debug a change in the URL pattern of the online documentation. It should output all the links that are on the table of contents (the URL is in the config file) :
@@ -87,33 +140,3 @@ Example :
 This command generates the PHP code for that method. The following example will output the code given at the begin of the README :
 
     php generate.php method stopVirtualMachine
-
-
-### Class ####
-This command generates all the methods listed in the online reference in a class.
-
-    php generate.php class
-
-Configuration
--------------
-
-The configuration is set in `config.yml` with the Yaml format :
-
-    # URL of the API reference table of contents
-    api_ref_toc_url: http://download.cloud.com/releases/2.2.0/api_2.2.4/TOC_User.html
-    
-    # Configuration for the PHP generated code
-    php:
-        class_name: BaseCloudStackClient
-        use_camel_case: true
-    
-    # Camel case values
-    camel_case:
-        account: account
-        accounts: accounts
-        accounttype: accountType
-        ...
-        
-Camel Case
-----------
-You can either choose to have generated code with the same variable names than in the documentation, `securitygroupnames` for instance, or to have them in camel case, like `securityGroupNames` by setting `use_camel_case` to `true` in the configuration file.
