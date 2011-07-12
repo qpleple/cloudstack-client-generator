@@ -37,7 +37,7 @@ Usage
 -----
 Just run the script, it will generate all the methods.
 
-    php generate.php
+    php generate.php class
 
 Output :
 
