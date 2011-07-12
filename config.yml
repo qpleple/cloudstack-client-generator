@@ -1,0 +1,5 @@
+# URL of the table of contents
+complete_url: http://download.cloud.com/releases/2.2.0/api/TOC_User.html
+
+# prefix for pages (should be a substring of complete_url)
+base_url: http://download.cloud.com/releases/2.2.0/api/
