@@ -89,6 +89,7 @@ camel_case:
     securitygroupid: securityGroupId
     securitygroupids: securityGroupIds
     securitygroupname: securityGroupName
+    securitygroupnames: securityGroupNames
     serviceofferingid: serviceOfferingId
     size: size
     snapshotid: snapshotId
