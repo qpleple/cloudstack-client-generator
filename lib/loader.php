@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . "/Twig/Autoloader.php";
 require_once dirname(__FILE__) . "/Yaml/sfYamlParser.php";
 
 // HTML parsing lirary
-// see http://sourceforge.net/projects/simplehtmldom/
+// see http://simplehtmldom.sourceforge.net/
 require_once dirname(__FILE__) . "/simple_html_dom.php";
 
 
