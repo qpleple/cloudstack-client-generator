@@ -1,8 +1,5 @@
 <?php
-/**
-* 
-*/
-abstract class BaseCloudStackClient {
+abstract class {{ config.php.class_name }} {
     // Force Extending class to define this method
     abstract protected function request($method, $args);
     
