@@ -3,7 +3,8 @@
     * {{ method.description }}
     *
 {% for param in method.params %}
-    * @param string ${% if camelCase %}{{ config.camel_case[param.name] }}{% else %}{{ param.name }}{% endif %} {{ param.description }}
+    * {% filter wordwrap(80, "\n    *        ", false) %}@param string ${% if camelCase %}{{ config.camel_case[param.name] }}{% else %}{{ param.name }}{% endif %} {{ param.description }}
+{% endfilter %}
 {% endfor %}
     */
     
