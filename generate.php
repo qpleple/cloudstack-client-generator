@@ -13,19 +13,40 @@ $config = $lib->loadYaml("config.yml");
 // Download the API reference table of content 
 $html = $lib->fetchHtml($config['api_ref_toc_url']);
 
-if ($argc > 1 && $argv[1] == "dump:links") {
+
+/**
+ * The command "links" outputs the list of all the links
+ * 
+ */
+if ($argc > 1 && $argv[1] == "links") {
     foreach (getAllLinks($html) as $link) {
         echo $link . "\n";
     }
-} elseif ($argc > 2 && $argv[1] == "dump:methoddata" ) {
+    exit;
+}
+
+/**
+ * The command "method-data"
+ */
+if ($argc > 2 && $argv[1] == "methoddata" ) {
     $method = $argv[2];
     $url = getRootUrl($config['api_ref_toc_url']) . $method . ".html";
     var_dump(fetchMethodData($url));
+    exit;
 }
 
+/**
+ * The command "method-code"
+ */
+if ($argc > 2 && $argv[1] == "method" ) {
+    $method = $argv[2];
+    $url = getRootUrl($config['api_ref_toc_url']) . $method . ".html";
+    $methodData = fetchMethodData($url);
+    $lib->render("clientClass.php.twig", $methodData);
+    exit;
+}
 
 exit;
-
 /******************
   Functions
  ******************/
@@ -84,8 +105,8 @@ function fetchMethodData($url) {
     // parameter name, description of the paramter and wether if it is required or not
     foreach($params_table->find('tr') as $tr) {
         if (trim($tr->find('td', 0)->plaintext) != "Parameter Name") {
-            $param_name = trim($tr->find('td', 0)->plaintext);
-            $data['params'][$param_name] = array(
+            $data['params'][] = array(
+                "name" => trim($tr->find('td', 0)->plaintext),
                 "description" => trim($tr->find('td', 1)->plaintext),
                 "required" => trim($tr->find('td', 2)->plaintext),
             );
