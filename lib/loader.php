@@ -2,6 +2,12 @@
 // Templating library
 // see http://www.twig-project.org/
 require_once dirname(__FILE__) . "/Twig/Autoloader.php";
+Twig_Autoloader::register();
+
+// Twig Extentions
+// see https://github.com/fabpot/Twig-extensions
+require_once  dirname(__FILE__) . "/Twig-extensions/Twig/Extensions/Autoloader.php";
+Twig_Extensions_Autoloader::register();
 
 // YAML format parser libray
 // see http://components.symfony-project.org/yaml/
@@ -25,6 +31,7 @@ class Lib {
         Twig_Autoloader::register();
         $loader = new Twig_Loader_Filesystem(dirname(__FILE__) . "/../templates");
         $this->twig = new Twig_Environment($loader);
+        $this->twig->addExtension(new Twig_Extensions_Extension_Text());
 
         // Loading config file (Yaml format)
         $this->yaml = new sfYamlParser();
