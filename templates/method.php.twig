@@ -1,18 +1,20 @@
+{% set camelCase = config.php.use_camel_case %}
 /**
-* {{ description }}
+* {{ method.description }}
 *
-{% for param in params %}
-* @param string ${{ param.name }} {{ param.description }}
+{% for param in method.params %}
+* @param string ${% if camelCase %}{{ config.camel_case[param.name] }}{% else %}{{ param.name }}{% endif %} {{ param.description }}
 {% endfor %}
 */
 
-public function {{ name }}({% for param in params %}
-${{ param.name }}{% if param.required != "true" %} = ""{% endif %}{% if not loop.last %}, {% endif %}
+public function {{ method.name }}({% for param in method.params %}
+${% if camelCase %}{{ config.camel_case[param.name] }}{% else %}{{ param.name }}{% endif %}{% if param.required != "true" %} = ""{% endif %}{% if not loop.last %}, {% endif %}
 {% endfor %}
 ) {
-    $this->request("{{ name }}", array(
-        {% for param in params %}
-        '{{ param.name }}' => ${{ param.name }},
-        {% endfor %}
+    $this->request("{{ method.name }}", array(
+{% for param in method.params %}
+        '{{ param.name }}' => ${% if camelCase %}{{ config.camel_case[param.name] }}{% else %}{{ param.name }}{% endif %},
+{% endfor %}
     ));
 }
+

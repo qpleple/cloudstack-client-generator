@@ -42,10 +42,11 @@ if ($argc > 2 && $argv[1] == "method" ) {
     $method = $argv[2];
     $url = getRootUrl($config['api_ref_toc_url']) . $method . ".html";
     $methodData = fetchMethodData($url);
-    if ($config['php']['use_camel_case']) {
-        attachCamelCaseValues($methodData);
-    }
-    $lib->render("method.php.twig", $methodData);
+    
+    $lib->render("method.php.twig", array(
+        "method" => $methodData,
+        "config" => $config,
+    ));
     exit;
 }
 
@@ -127,4 +128,3 @@ function fetchMethodData($url) {
     
     return $data;
 }
-?>
