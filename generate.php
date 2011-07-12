@@ -87,6 +87,7 @@ function getAllLinks($html) {
     foreach($html->find('a') as $a) {
         $url = $a->href;
         
+        // Links black list
         // Exclude page that are not method documentation
         // You may need to edit the rules if the documentation has changed
         if ($url == "http://cloud.com" || substr($url, 0, 8) == "user/2.2") {

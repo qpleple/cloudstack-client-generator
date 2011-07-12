@@ -85,9 +85,19 @@ Camel Case
 ----------
 You can either choose to have generated code with the same variable names than in the documentation, `securitygroupnames` for instance, or to have them in camel case, like `securityGroupNames` by setting `use_camel_case` to `true` in the configuration file.
 
-
 Debuging
 --------
+
+As the DOM of the online documentation may change, here is some tools to inquire the change. Three steps are crucials :
+
+* The URL of the online documentation table of content of the **latest** version of the API. To be modified in the config file.
+* The link black list : links to ignore in all the links from the table of content. To be modified in the function `getAllLinks()` of `generate.php` :
+    if ($url == "http://cloud.com" || substr($url, 0, 8) == "user/2.2") {
+        continue;
+    }
+* The page scraper if the DOM change, to be modified in the function `fetchMethodData()` in `generate.php`.
+
+The code is well documented, it should not be too difficult to understand and tweak it.
 
 ### Dump links ###
 This command is great to debug a change in the URL pattern of the online documentation. It should output all the links that are on the table of contents (the URL is in the config file) :
