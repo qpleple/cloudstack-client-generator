@@ -2,7 +2,7 @@
 api_ref_toc_url: http://download.cloud.com/releases/2.2.0/api_2.2.4/TOC_User.html
 
 php:
-    name: CloudStackClient.php
+    class_name: BaseCloudStackClient
     use_camel_case: true
 
 # Camel case values
