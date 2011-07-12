@@ -10,8 +10,6 @@ if (!defined('STDIN')) {
 $lib = require_once dirname(__FILE__) . "/lib/loader.php";
 // Load configuration files
 $config = $lib->loadYaml("config.yml");
-// Download the API reference table of content 
-$html = $lib->fetchHtml($config['api_ref_toc_url']);
 
 
 /**
@@ -19,9 +17,13 @@ $html = $lib->fetchHtml($config['api_ref_toc_url']);
  * 
  */
 if ($argc > 1 && $argv[1] == "links") {
+    // Download the API reference table of content 
+    $html = $lib->fetchHtml($config['api_ref_toc_url']);
+    
     foreach (getAllLinks($html) as $link) {
         echo $link . "\n";
     }
+    
     exit;
 }
 
@@ -36,7 +38,7 @@ if ($argc > 2 && $argv[1] == "methoddata" ) {
 }
 
 /**
- * The command "method-code"
+ * The command "method"
  */
 if ($argc > 2 && $argv[1] == "method" ) {
     $method = $argv[2];
@@ -49,6 +51,36 @@ if ($argc > 2 && $argv[1] == "method" ) {
     ));
     exit;
 }
+
+
+/**
+ * The command "class"
+ */
+if ($argc > 1 && $argv[1] == "class" ) {
+    // Download the API reference table of content 
+    $html = $lib->fetchHtml($config['api_ref_toc_url']);
+    
+    $rootUrl = getRootUrl($config['api_ref_toc_url']);
+    
+    $methods = array();
+    $i = 0;
+    // walk through all links
+    foreach (getAllLinks($html) as $link) {
+        $url =  $rootUrl . $link;
+        $methods[] = fetchMethodData($url);
+        $i++;
+        if ($i > 5) {
+            break;
+        }
+    }
+    
+    $lib->render("class.php.twig", array(
+        "methods" => $methods,
+        "config" => $config,
+    ));
+    exit;
+}
+
 
 exit;
 /******************
@@ -84,7 +116,7 @@ function getAllLinks($html) {
  */
 function getRootUrl($url) {
     preg_match("/^(.*\/)[^\/]+$/", $url, $matches);
-    return $matches[1] . "user/";
+    return $matches[1];
 }
 
 /**
