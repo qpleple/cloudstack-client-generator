@@ -24,7 +24,6 @@ if ($argc > 1 && $argv[1] == "dump:links") {
 }
 
 
-
 exit;
 
 /******************
@@ -70,11 +69,12 @@ function getRootUrl($url) {
 function fetchMethodData($url) {
     global $lib;
     $html = $lib->fetchHtml($url);
+    // The name of the method is in the first and only one h1
+    $title = $html->find('h1', 0);
     $data = array(
-        // The name of the method is in the first and only one h1
-        'name' => trim($html->find('h1', 0)->plaintext),
-        // The description of the method is the first span of the page
-        'description' => trim($html->find('span', 0)->plaintext),
+        'name' => trim($title->plaintext),
+        // The description of the method is in the next block
+        'description' => trim($title->next_sibling()->plaintext),
     );
     
     // The arguments of the method are all in the first table
