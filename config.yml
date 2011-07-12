@@ -1,13 +1,13 @@
 # URL of the API reference table of contents
 api_ref_toc_url: http://download.cloud.com/releases/2.2.0/api_2.2.4/TOC_User.html
 
+# Configuration for the PHP generated code
 php:
     class_name: BaseCloudStackClient
     use_camel_case: true
 
 # Camel case values
 camel_case:
-    values:
     account: account
     accounts: accounts
     accounttype: accountType
@@ -50,7 +50,7 @@ camel_case:
     ipaddress: ipAddress
     ipaddressid: ipAddressId
     iprange: ipRange
-    iscleanuprequired: isCleanuPrequired
+    iscleanuprequired: isCleanUpRequired
     isdefault: isDefault
     isextractable: isExtractable
     isfeatured: isFeatured
