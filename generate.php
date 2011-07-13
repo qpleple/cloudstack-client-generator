@@ -1,4 +1,3 @@
-#!/usr/bin/env php
 <?php
 // Test if executed from CLI
 if (!defined('STDIN')) {
@@ -38,6 +37,7 @@ if ($argc > 2 && $argv[1] == "dump-method-data" ) {
     exit;
 }
 
+
 /**
  * The command "method"
  */
@@ -55,6 +55,37 @@ if ($argc > 2 && $argv[1] == "method" ) {
 }
 
 
+if ($argc > 1 && $argv[1] == "check-camel-case" ) {
+    // Disable camel case auto lookup
+    $config['php']['use_camel_case'] = false;
+    
+    // Download the API reference table of content 
+    $html = $lib->fetchHtml($config['api_ref_toc_url']);
+    $rootUrl = getRootUrl($config['api_ref_toc_url']);
+    
+    $missingNames = array();
+    // walk through all links
+    foreach (getAllLinks($html) as $link) {
+        $url =  $rootUrl . $link;
+        echo "Fetching $url ...\n";
+        $data = fetchMethodData($url);
+        foreach ($data['params'] as $param) {
+            if (!array_key_exists($param['name'], $config['camel_case'])) {
+                $missingNames[] = $param['name'];
+            }
+        }
+    }
+    
+    if (empty($missingNames)) {
+        echo "No missing camel case values :)\n";
+    } else {
+        echo "Add the following values to the config file under \"camel_case\"\n :";
+        print_r($missingNames);
+    }
+    
+    exit;
+}
+
 if ($argc > 1 && $argv[1] == "class" ) {
     // Download the API reference table of content 
     $html = $lib->fetchHtml($config['api_ref_toc_url']);
@@ -71,6 +102,8 @@ if ($argc > 1 && $argv[1] == "class" ) {
         "methods" => $methods,
         "config" => $config,
     ));
+    
+    exit;
 }
     
 // Here : no valid arguments given, printing help and exiting
@@ -125,6 +158,9 @@ function fetchMethodData($url) {
     $html = $lib->fetchHtml($url);
     // The name of the method is in the first and only one h1
     $title = $html->find('h1', 0);
+    if ($title == null) {
+        die("Error getting $url");
+    }
     $data = array(
         'name' => trim($title->plaintext),
         // The description of the method is in the next block
@@ -172,21 +208,4 @@ function getCamelCase($name) {
     }
     
     return $config['camel_case'][$name];
-}
-
-/**
- * Adds the camel case values of fields names
- */
-function attachCamelCaseValues($methodData) {
-    
-    global $config;
-    
-    for ($i=0; $i < count($methodData); $i++) { 
-        $name = $methodData['params'][$i]['name'];
-        
-        
-        $methodData['params'][$i]['nameCamelCase'] = $config['camel_case'][$name];
-    }
-
-    return $methodData;
 }
