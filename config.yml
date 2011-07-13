@@ -62,6 +62,7 @@ camel_case:
     issystem: isSystem
     jobid: jobId
     keypair: keyPair
+    keyword: keyword
     level: level
     maxsnaps: maxSnaps
     mode: mode
@@ -75,6 +76,7 @@ camel_case:
     oscategoryid: osCategoryId
     ostypeid: osTypeId
     page: page
+    pagesize: pageSize
     password: password
     passwordenabled: passwordEnabled
     podid: podId
@@ -100,6 +102,7 @@ camel_case:
     startip: startIp
     startport: startPort
     state: state
+    storageid: storageId
     templatefilter: templateFilter
     templateid: templateId
     timezone: timezone
