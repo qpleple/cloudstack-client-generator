@@ -55,7 +55,7 @@ if ($argc > 2 && $argv[1] == "method" ) {
 }
 
 
-if ($argc > 2 && $argv[1] == "class" ) {
+if ($argc > 1 && $argv[1] == "class" ) {
     // Download the API reference table of content 
     $html = $lib->fetchHtml($config['api_ref_toc_url']);
     $rootUrl = getRootUrl($config['api_ref_toc_url']);
