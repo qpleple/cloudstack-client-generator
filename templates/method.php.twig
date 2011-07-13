@@ -3,16 +3,16 @@
     * {{ method.description }}
     *
 {% for param in method.params %}
-    * {% filter wordwrap(80, "\n    *        ", false) %}@param string ${% if camelCase %}{{ config.camel_case[param.name] }}{% else %}{{ param.name }}{% endif %} {{ param.description }}
+    * {% filter wordwrap(80, "\n    *        ", false) %}@param string ${% if camelCase %}{{ param.nameCamelCase }}{% else %}{{ param.name }}{% endif %} {{ param.description }}
 {% endfilter %}
 {% endfor %}
     */
     
-    public function {{ method.name }}({% for param in method.params %}${% if camelCase %}{{ config.camel_case[param.name] }}{% else %}{{ param.name }}{% endif %}{% if param.required != "true" %} = ""{% endif %}{% if not loop.last %}, {% endif %}
+    public function {{ method.name }}({% for param in method.params %}${% if camelCase %}{{ param.nameCamelCase }}{% else %}{{ param.name }}{% endif %}{% if param.required != "true" %} = ""{% endif %}{% if not loop.last %}, {% endif %}
 {% endfor %}) {
         $this->request("{{ method.name }}", array(
 {% for param in method.params %}
-            '{{ param.name }}' => ${% if camelCase %}{{ config.camel_case[param.name] }}{% else %}{{ param.name }}{% endif %},
+            '{{ param.name }}' => ${% if camelCase %}{{ param.nameCamelCase }}{% else %}{{ param.name }}{% endif %},
 {% endfor %}
         ));
     }

@@ -120,6 +120,8 @@ function getRootUrl($url) {
  */
 function fetchMethodData($url) {
     global $lib;
+    global $config;
+    
     $html = $lib->fetchHtml($url);
     // The name of the method is in the first and only one h1
     $title = $html->find('h1', 0);
@@ -135,9 +137,11 @@ function fetchMethodData($url) {
     // then, capturing the 3 cells of each lines :
     // parameter name, description of the paramter and wether if it is required or not
     foreach($params_table->find('tr') as $tr) {
-        if (trim($tr->find('td', 0)->plaintext) != "Parameter Name") {
+        $name = trim($tr->find('td', 0)->plaintext);
+        if ($name != "Parameter Name") {
             $data['params'][] = array(
-                "name" => trim($tr->find('td', 0)->plaintext),
+                "name" => $name,
+                "nameCamelCase" => $config['php']['use_camel_case'] ? getCamelCase($name) : "",
                 "description" => trim($tr->find('td', 1)->plaintext),
                 "required" => trim($tr->find('td', 2)->plaintext),
             );
@@ -147,11 +151,42 @@ function fetchMethodData($url) {
     // All the methods strating with list have a additionnal parameter
     // for pagination, not required
     if (substr($data['name'], 0, 4) == "list") {
-        $data['params']['page'] = array(
+        $data['params'][] = array(
+            "name" => "page",
+            "nameCamelCase" => "page",
             "description" => "Pagination",
             "required" => "false",
         );
     }
-    
+
     return $data;
+}
+
+
+function getCamelCase($name) {
+    global $config;
+    
+    // The API may change and you may have to add yourself some values in the config file
+    if (!array_key_exists($name, $config['camel_case'])) {
+        die("No camel case value for \"$name\".\nPlease add it in the configuration file and run the command again.");
+    }
+    
+    return $config['camel_case'][$name];
+}
+
+/**
+ * Adds the camel case values of fields names
+ */
+function attachCamelCaseValues($methodData) {
+    
+    global $config;
+    
+    for ($i=0; $i < count($methodData); $i++) { 
+        $name = $methodData['params'][$i]['name'];
+        
+        
+        $methodData['params'][$i]['nameCamelCase'] = $config['camel_case'][$name];
+    }
+
+    return $methodData;
 }
