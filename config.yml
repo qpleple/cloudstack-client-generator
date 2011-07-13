@@ -18,6 +18,7 @@ camel_case:
     available: available
     bits: bits
     bootable: bootable
+    checksum: checksum
     cidrlist: cidrList
     description: description
     destzoneid: destzoneId
@@ -32,6 +33,7 @@ camel_case:
     endip: endIp
     endport: endPort
     entrytime: entryTime
+    fingerprint: fingerprint
     forced: forced
     format: format
     forvirtualnetwork: forVirtualNetwork
@@ -84,6 +86,7 @@ camel_case:
     privateport: privatePort
     protocol: protocol
     publicipid: publicIpId
+    publickey: publicKey
     publicport: publicPort
     requireshvm: requireShvm
     resourcetype: resourceType
