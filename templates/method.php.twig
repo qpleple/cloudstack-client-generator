@@ -1,6 +1,7 @@
+{% autoescape false %}
 {% set camelCase = config.php.use_camel_case %}
     /**
-    * {{ method.description }}
+    * {{ method.description | raw }}
     *
 {% for param in method.params %}
     * {% filter wordwrap(80, "\n    *        ", false) %}@param string ${% if camelCase %}{{ param.nameCamelCase }}{% else %}{{ param.name }}{% endif %} {{ param.description }}
@@ -16,4 +17,5 @@
 {% endfor %}
         ));
     }
+{% endautoescape %}
     
