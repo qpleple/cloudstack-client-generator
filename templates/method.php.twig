@@ -11,7 +11,14 @@
     
     public function {{ method.name }}({% for param in method.params %}${% if camelCase %}{{ param.nameCamelCase }}{% else %}{{ param.name }}{% endif %}{% if param.required != "true" %} = ""{% endif %}{% if not loop.last %}, {% endif %}
 {% endfor %}) {
-        $this->request("{{ method.name }}", array(
+
+{% for param in method.params %}{% if param.required == "true" %}
+        if (empty(${% if camelCase %}{{ param.nameCamelCase }}{% else %}{{ param.name }}{% endif %})) {
+            throw new CloudStackClientException(sprintf(MISSING_ARGUMENT_MSG, "{% if camelCase %}{{ param.nameCamelCase }}{% else %}{{ param.name }}{% endif %}"), MISSING_ARGUMENT);
+        }
+
+{% endif %}{% endfor %}
+        return $this->request("{{ method.name }}", array(
 {% for param in method.params %}
             '{{ param.name }}' => ${% if camelCase %}{{ param.nameCamelCase }}{% else %}{{ param.name }}{% endif %},
 {% endfor %}
