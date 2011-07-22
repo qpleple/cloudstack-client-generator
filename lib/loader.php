@@ -1,4 +1,13 @@
 <?php
+/*
+ * This file is part of the CloudStack Client Generator.
+ *
+ * (c) Quentin Pleplé <quentin.pleple@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+ 
 // Templating library
 // see http://www.twig-project.org/
 require_once dirname(__FILE__) . "/Twig/Autoloader.php";

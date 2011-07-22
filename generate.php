@@ -1,4 +1,13 @@
 <?php
+/*
+ * This file is part of the CloudStack Client Generator.
+ *
+ * (c) Quentin Pleplé <quentin.pleple@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+ 
 // Test if executed from CLI
 if (!defined('STDIN')) {
   echo("Error : Should only be executed from CLI.");  
@@ -20,11 +29,12 @@ if ($argc > 1 && $argv[1] == "dump-links") {
     $html = $lib->fetchHtml($config['api_ref_toc_url']);
     $links = getAllLinks($html);
     foreach ($links as $link) {
-        echo $link . "\n";
+        echo "{$link['url']} - {$link['name']}\n";
     }
     
     exit;
 }
+
 
 /**
  * The command "method-data"
@@ -66,7 +76,7 @@ if ($argc > 1 && $argv[1] == "check-camel-case" ) {
     $missingNames = array();
     // walk through all links
     foreach (getAllLinks($html) as $link) {
-        $url =  $rootUrl . $link;
+        $url =  $rootUrl . $link['url'];
         echo "Fetching $url ...\n";
         $data = fetchMethodData($url);
         foreach ($data['params'] as $param) {
@@ -94,7 +104,7 @@ if ($argc > 1 && $argv[1] == "class" ) {
     $methods = array();
     // walk through all links
     foreach (getAllLinks($html) as $link) {
-        $url =  $rootUrl . $link;
+        $url =  $rootUrl . $link['url'];
         $methods[] = fetchMethodData($url);
     }
     
@@ -131,7 +141,10 @@ function getAllLinks($html) {
             continue;
         }
         
-        $links[] = $url;
+        $links[] = array(
+            'url' => $url,
+            'name' => trim($a->plaintext),
+        );
     }
     
     return $links;
