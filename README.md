@@ -3,7 +3,7 @@ CloudStack Client Generator
 
 Command line tool that fetches and parses the online reference for CloudStack API and generates the client class in PHP with in-code documentation. You can generate a client in any language (Java, python, C++, ObjectiveC, etc.) by adding class templates to the ``templates/`` directory.
 
-See https://github.com/qpleple/cloudstack-php-client for last generated.
+See https://github.com/qpleple/cloudstack-php-client for last PHP client generated.
 
 Description
 -----------
