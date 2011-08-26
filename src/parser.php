@@ -6,8 +6,7 @@ class Parser
      * Get all the hyperlinks from the HTML document given
      * and return them in an array
      */
-    public static function getAllLinks($html)
-    {
+    public static function getAllLinks($html) {
         $links = array();
 
         foreach($html->find('a') as $a) {
@@ -33,8 +32,11 @@ class Parser
      * Fetch the data of the reference page of one method
      * and returns it in an array
      */
-    public static function getMethodData($html, $useCamelCase = false, $camelCaseValues = array())
-    {
+    public static function fetchMethodData($url) {
+        global $lib;
+        global $config;
+
+        $html = $lib->fetchHtml($url);
         // The name of the method is in the first and only one h1
         $title = $html->find('h1', 0);
         if ($title == null) {
@@ -56,7 +58,7 @@ class Parser
             if ($name != "Parameter Name") {
                 $data['params'][] = array(
                     "name" => $name,
-                    "nameCamelCase" => $useCamelCase ? self::getCamelCase($name, $camelCaseValues) : "",
+                    "nameCamelCase" => $config['languages']['php']['use_camel_case'] ? getCamelCase($name) : "",
                     "description" => trim($tr->find('td', 1)->plaintext),
                     "required" => trim($tr->find('td', 2)->plaintext),
                 );
@@ -78,13 +80,14 @@ class Parser
     }
 
 
-    private static function getCamelCase($name, $camelCaseValues)
-    {
+    function getCamelCase($name) {
+        global $config;
+
         // The API may change and you may have to add yourself some values in the config file
-        if (!array_key_exists($name, $camelCaseValues)) {
+        if (!array_key_exists($name, $config['camel_case'])) {
             die("No camel case value for \"$name\".\nPlease add it in the configuration file and run the command again.");
         }
 
-        return $camelCaseValues[$name];
+        return $config['camel_case'][$name];
     }
 }
