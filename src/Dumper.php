@@ -26,7 +26,6 @@ class Dumper
         ));
     }
     
-    
     public function dumpLinks()
     {
         $links = Parser::getAllLinks($this->fetchTOC());
@@ -34,7 +33,6 @@ class Dumper
             echo $link['url'] . " - " . $link['name'] ."\n";
         }
     }
-    
     
     public function dumpClass()
     {
