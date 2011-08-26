@@ -1,0 +1,23 @@
+{# 
+    This file is part of the CloudStack Client Generator.
+    
+    (c) Quentin Pleplé <quentin.pleple@gmail.com>
+    
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+#}
+{% autoescape false %}
+{% set camelCase = config.use_camel_case %}
+    def {{ method.name }}({% for param in method.params %}{% if camelCase %}{{ param.nameCamelCase }}{% else %}{{ param.name }}{% endif %}{% if param.required != "true" %} = ""{% endif %}{% if not loop.last %}, {% endif %}
+{% endfor %}):
+        '''
+        {{ method.description | raw }}
+        '''
+
+        return self.request("{{ method.name }}", {
+{% for param in method.params %}
+            '{{ param.name }}' : {% if camelCase %}{{ param.nameCamelCase }}{% else %}{{ param.name }}{% endif %},
+{% endfor %}
+        }
+{% endautoescape %}
+    
