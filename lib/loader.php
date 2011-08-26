@@ -66,5 +66,3 @@ class Lib {
     }
     
 }
-
-return new Lib();
