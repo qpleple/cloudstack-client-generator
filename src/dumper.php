@@ -22,4 +22,11 @@ class Dumper
             echo "{$link['url']} - {$link['name']}\n";
         }
     }
+    
+    public function dumpMethodData($method)
+    {
+        $rootUrl = getRootUrl($this->config['api_ref_toc_url']);
+        $url = "${rootUrl}user/${method}.html";
+        print_r(fetchMethodData($url));
+    }
 }

@@ -31,12 +31,8 @@ if ($argc > 1 && $argv[1] == "dump-links") {
     exit;
 }
 
-
 if ($argc > 2 && $argv[1] == "dump-method-data" ) {
-    $method = $argv[2];
-    $url = getRootUrl($config['api_ref_toc_url']) . "user/${method}.html";
-    print_r(fetchMethodData($url));
-
+    $dumper->dumpMethodData($argv[2]);
     exit;
 }
 
