@@ -37,7 +37,7 @@ Usage
 -----
 Just run the script, it will generate all the methods.
 
-    php generate.php class
+    php generator.php class
 
 Output :
 
@@ -96,19 +96,19 @@ Debuging
 As the DOM of the online documentation may change, here is some tools to inquire the change. Three steps are crucials :
 
 * The URL of the online documentation table of content of the **latest** version of the API. To be modified in the config file.
-* The link black list : links to ignore in all the links from the table of content. To be modified in the function `getAllLinks()` of `generate.php`.
-* The page scraper if the DOM change, to be modified in the function `fetchMethodData()` in `generate.php`.
+* The link black list : links to ignore in all the links from the table of content. To be modified in the function `getAllLinks()` of `generator.php`.
+* The page scraper if the DOM change, to be modified in the function `fetchMethodData()` in `generator.php`.
 
 The code is well documented, it should not be too difficult to understand and tweak it.
 
 ### Dump links ###
 This command is great to debug a change in the URL pattern of the online documentation. It should output all the links that are on the table of contents (the URL is in the config file) :
 
-    php generate.php dump-links
+    php generator.php links
     
 Example :
 
-    $ php generate.php dump-links
+    $ php generator.php links
     user/deployVirtualMachine.html
     user/destroyVirtualMachine.html
     user/rebootVirtualMachine.html
@@ -123,7 +123,7 @@ This command shows what data is fetched from the page of one method.
 
 Example :
 
-    $ php generate.php dump-method-data stopVirtualMachine
+    $ php generator.php method-data stopVirtualMachine
     Array
     (
         [name] => stopVirtualMachine
@@ -151,4 +151,4 @@ Example :
 ### Method ###
 This command generates the PHP code for that method. The following example will output the code given at the begin of the README :
 
-    php generate.php method stopVirtualMachine
+    php generator.php method stopVirtualMachine
