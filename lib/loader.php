@@ -61,7 +61,7 @@ class Lib {
         return file_get_html($url);
     }
     
-    public function render($template, $args) {
+    public function render($template, $args = array()) {
         $this->twig->loadTemplate($template)->display($args);
     }
     

@@ -65,7 +65,7 @@ class Parser
             }
         }
 
-        // All the methods strating with list have a additionnal parameter
+        // All the methods starting with list have a additionnal parameter
         // for pagination, not required
         if (substr($data['name'], 0, 4) == "list") {
             $data['params'][] = array(
