@@ -65,7 +65,7 @@ function fetchMethodData($url) {
         if ($name != "Parameter Name") {
             $data['params'][] = array(
                 "name" => $name,
-                "nameCamelCase" => $config['php']['use_camel_case'] ? getCamelCase($name) : "",
+                "nameCamelCase" => $config['languages']['php']['use_camel_case'] ? getCamelCase($name) : "",
                 "description" => trim($tr->find('td', 1)->plaintext),
                 "required" => trim($tr->find('td', 2)->plaintext),
             );
