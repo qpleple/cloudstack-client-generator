@@ -3,7 +3,7 @@
 # http://cloud.mindtouch.us/CloudStack_Documentation/API_Reference%3A_CloudStack
 api_ref_toc_url: http://download.cloud.com/releases/2.2.0/api_2.2.4/TOC_User.html
 
-# Languages supported : php
+# Languages supported : php, python
 language: php
 
 # Generated class name
