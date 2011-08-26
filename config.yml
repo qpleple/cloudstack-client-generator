@@ -1,14 +1,14 @@
 # URL of the API reference table of contents
 api_ref_toc_url: http://download.cloud.com/releases/2.2.0/api_2.2.4/TOC_User.html
 
-# Configuration for the PHP generated code
-languages:
-    php:
-        class_name: CloudStackClient
-        use_camel_case: true
-    python:
-        class_name: CloudStackClient
-        use_camel_case: true
+# Languages supported : php
+language: php
+
+# Generated class name
+class_name: CloudStackClient
+
+# Use camel case variable or not
+use_camel_case: true
 
 # Camel case values
 camel_case:
