@@ -4,11 +4,19 @@ class Dumper
 {
     protected $lib;
     protected $config;
+    protected $extension;
     
     function __construct($lib, $config)
     {
         $this->lib = $lib;
         $this->config = $config;
+        if ($config['language'] == "php") {
+            $this->extension = "php";
+        } elseif ($config['language'] == "python") {
+            $this->extension = "py";
+        } else {
+            throw new Exception("Language " . $config['language'] . " not supported.");
+        }
     }
     
     public function dumpMethodData($method)
@@ -20,7 +28,7 @@ class Dumper
     public function dumpMethod($method)
     {
         $methodData = $this->fetchMethodData("user/${method}.html");
-        $this->lib->render("method.php.twig", array(
+        $this->lib->render("method." . $this->extension . ".twig", array(
             "method" => $methodData,
             "config" => $this->config,
         ));
@@ -44,7 +52,7 @@ class Dumper
             $methodsData[] = $this->fetchMethodData($link['url']);
         }
 
-        $this->lib->render("class.php.twig", array(
+        $this->lib->render("class." . $this->extension . ".twig", array(
             "methods" => $methodsData,
             "config" => $this->config,
         ));
