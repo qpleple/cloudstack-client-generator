@@ -10,7 +10,7 @@
 require_once dirname(__FILE__) . "/BaseCloudStackClient.php";
 require_once dirname(__FILE__) . "/CloudStackClientException.php";
 
-class {{ config.php.class_name }} extends BaseCloudStackClient {
+class {{ config.class_name }} extends BaseCloudStackClient {
     
 {% for method in methods %}
 {% include "method.php.twig" with {'method' : method, 'config' : config} %}
