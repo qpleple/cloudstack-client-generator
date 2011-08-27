@@ -8,16 +8,16 @@ See https://github.com/qpleple/cloudstack-php-client for last PHP client generat
 Description
 -----------
 
-The table of content of the API reference lists all the methods. Each method has its own page. The data that the script fetches for each method is :
+The table of content of the API reference lists all the methods. Each method has its own page. The data that the script fetches for each method is:
 
 * the method name
 * the method description
-* for each argument :
+* for each argument:
   * the argument name
   * the argument description
   * wether if the argument is required or not
   
-Here is an example of a method generated that has one arugment required (`$id`) and one not (`$forced`):
+Here is an example of a method generated that has one argument required (`$id`) and one not (`$forced`):
 
     /**
     * Stops a virtual machine.
@@ -39,7 +39,7 @@ Just run the script, it will generate all the methods.
 
     php generator.php class
 
-Output :
+Output:
 
     abstract class BaseCloudStackClient {
         abstract protected function request($method, $args);
@@ -64,7 +64,7 @@ Output :
 Configuration
 -------------
 
-The configuration is set in `config.yml` with the Yaml format :
+The configuration is set in `config.yml` with the Yaml format:
 
     # URL of the API reference table of contents
     # check out if you have the latest version url here:
@@ -93,20 +93,20 @@ You can either choose to have generated code with the same variable names than i
 Debuging
 --------
 
-As the DOM of the online documentation may change, here is some tools to inquire the change. Three steps are crucials :
+As the DOM of the online documentation may change, here is some tools to inquire the change. Three steps are crucial:
 
 * The URL of the online documentation table of content of the **latest** version of the API. To be modified in the config file.
-* The link black list : links to ignore in all the links from the table of content. To be modified in the function `getAllLinks()` of `generator.php`.
+* The link black list: links to ignore in all the links from the table of content. To be modified in the function `getAllLinks()` of `generator.php`.
 * The page scraper if the DOM change, to be modified in the function `fetchMethodData()` in `generator.php`.
 
 The code is well documented, it should not be too difficult to understand and tweak it.
 
 ### Dump links ###
-This command is great to debug a change in the URL pattern of the online documentation. It should output all the links that are on the table of contents (the URL is in the config file) :
+This command is great to debug a change in the URL pattern of the online documentation. It should output all the links that are on the table of contents (the URL is in the config file):
 
     php generator.php links
     
-Example :
+Example:
 
     $ php generator.php links
     user/deployVirtualMachine.html
@@ -121,7 +121,7 @@ Example :
 ### Dump method data ###
 This command shows what data is fetched from the page of one method.
 
-Example :
+Example:
 
     $ php generator.php method-data stopVirtualMachine
     Array
@@ -149,6 +149,6 @@ Example :
     )
 
 ### Method ###
-This command generates the PHP code for that method. The following example will output the code given at the begin of the README :
+This command generates the PHP code for that method. The following example will output the code given at the begin of this document:
 
     php generator.php method stopVirtualMachine
