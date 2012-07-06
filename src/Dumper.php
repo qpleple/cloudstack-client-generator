@@ -21,13 +21,13 @@ class Dumper
     
     public function dumpMethodData($method)
     {
-        $methodData = $this->fetchMethodData("user/${method}.html");
+        $methodData = $this->fetchMethodData($this->config['apilevel']."/${method}.html");
         print_r($methodData);
     }
     
     public function dumpMethod($method)
     {
-        $methodData = $this->fetchMethodData("user/${method}.html");
+        $methodData = $this->fetchMethodData($this->config['apilevel']."/${method}.html");
         $this->lib->render("method." . $this->extension . ".twig", array(
             "method" => $methodData,
             "config" => $this->config,
