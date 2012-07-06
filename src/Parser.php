@@ -16,7 +16,7 @@ class Parser
             // Links black list
             // Exclude page that are not method documentation
             // You may need to edit the rules if the documentation has changed
-            if (substr($url, 0, 5) != "user/" || substr($url, 0, 8) == "user/2.2") {
+            if ((substr($url, 0, 5) != "user/" && substr($url, 0, 11) != "root_admin/" && substr($url, 0, 13) != "domain_admin/")|| substr($url, 0, 8) == "user/2.2" ) {
                 continue;
             }
 
@@ -65,6 +65,7 @@ class Parser
 
         // All the methods starting with list have a additionnal parameter
         // for pagination, not required
+        /* That's not true anymore with CS 3.x, page params are in the documentation
         if (substr($data['name'], 0, 4) == "list") {
             $data['params'][] = array(
                 "name" => "page",
@@ -72,7 +73,8 @@ class Parser
                 "description" => "Pagination",
                 "required" => "false",
             );
-        }
+        }*/
+
 
         return $data;
     }
